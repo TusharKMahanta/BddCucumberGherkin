@@ -12,7 +12,8 @@ import org.testng.TestNG;
 @CucumberOptions(
         monochrome = true,
         features = "src/main/resources/features",
-        extraGlue = "com.tus.bdd.steps")
+        extraGlue = "com.tus.bdd.steps",
+        plugin = {"pretty","html:out/cucumber.report.html"})
 @EnableAutoConfiguration
 public class BddFrameworkApplication extends CustomAbstractTestNGCucumberTests {
 
