@@ -1,7 +1,7 @@
-package com.tus.bdd.steps.common;
+package com.tus.bdd.config;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 
 @CucumberContextConfiguration
-public class StepsConfig {
+public class CucumberConfig {
 }

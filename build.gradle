@@ -1,27 +1,50 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.2'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.springframework.boot' version '4.0.1'
+	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.tus'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
 
 repositories {
 	mavenCentral()
 }
 ext {
-	CUCUMBER_VERSION = '7.11.1'
+	CUCUMBER_VERSION = '7.15.0'
 }
-
+springBoot {
+	mainClass = 'com.tus.bdd.BddFrameworkApplication'
+}
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation "io.cucumber:cucumber-testng:${CUCUMBER_VERSION}"
+	implementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation "io.cucumber:cucumber-java:${CUCUMBER_VERSION}"
 	implementation "io.cucumber:cucumber-spring:${CUCUMBER_VERSION}"
-	implementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation "io.cucumber:cucumber-core:${CUCUMBER_VERSION}"
+	implementation "io.cucumber:cucumber-junit:${CUCUMBER_VERSION}"
+	implementation "io.cucumber:gherkin:26.2.0"
+
+	implementation 'org.mockito:mockito-inline:5.2.0'
+	implementation 'net.bytebuddy:byte-buddy-agent:1.17.8'
 }
+
+tasks.withType(JavaExec).configureEach {
+	doFirst {
+		def agentJar = configurations.runtimeClasspath.find {
+			it.name.startsWith("byte-buddy-agent")
+		}
+		if (agentJar != null) {
+			jvmArgs "-javaagent:${agentJar}"
+		}
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
