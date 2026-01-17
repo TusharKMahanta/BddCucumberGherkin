@@ -1,3 +1,4 @@
+@regression
 Feature: Test1234
   Background:
     * Clear Steps

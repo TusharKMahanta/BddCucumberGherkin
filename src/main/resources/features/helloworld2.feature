@@ -1,6 +1,6 @@
 @smoke
-Feature: Hello World
+Feature: Hello World 2
   Background:
     * Clear Steps
-  Scenario: Hello World
+  Scenario: Hello World 2
     * Say Hello

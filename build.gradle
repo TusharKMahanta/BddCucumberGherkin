@@ -49,3 +49,26 @@ tasks.withType(JavaExec).configureEach {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.register('runE2E', JavaExec) {
+	group = "verification"
+	description = "Run Cucumber E2E tests"
+
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = 'com.tus.bdd.BddFrameworkApplication'
+}
+
+def cucumberRuns = [
+		smoke      : "@smoke",
+		regression : "@regression",
+		slow       : "@slow"
+]
+
+cucumberRuns.each { name, tag ->
+	tasks.register("runE2E_${name}", JavaExec) {
+		group = "verification"
+		classpath = sourceSets.main.runtimeClasspath
+		mainClass = 'com.tus.bdd.BddFrameworkApplication'
+		args "--tags", tag
+	}
+}
